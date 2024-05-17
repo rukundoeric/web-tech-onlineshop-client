@@ -29,9 +29,11 @@ function Login({ alert: defaultAlert }) {
     setPassword(e.target.value);
   };
   const handleLoginSuccess = response => {
+    const session = { ...response?.data };
     setEmailErrors(undefined);
     setPasswordErrors(undefined);
-    setAuth({ ...response });
+    setAuth(session);
+    sessionStorage.setItem('authData', JSON.stringify(session));
     navigate(from, { replace: true });
   };
 

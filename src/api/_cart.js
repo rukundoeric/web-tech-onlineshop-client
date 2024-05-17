@@ -2,12 +2,33 @@
 import { Constants } from '../helpers';
 
 const {
+  create_order_api,
   cart_api,
+  get_user_order_api,
+  get_all_order_api
 } = Constants;
 
-export const addToCart = async (axios, m_id, callback) => {
+export const checkout = async (axios, order, callback) => {
   try {
-    const { data } = await axios.post(cart_api(m_id), { quantity: '1' });
+    const { data } = await axios.post(create_order_api, order);
+    callback(null, data);
+  } catch (error) {
+    callback(error);
+  }
+};
+
+export const getUserOrders = async (axios, userId, callback) => {
+  try {
+    const { data } = await axios.get(get_user_order_api(userId));
+    callback(null, data);
+  } catch (error) {
+    callback(error);
+  }
+};
+
+export const getAllOrders = async (axios, callback) => {
+  try {
+    const { data } = await axios.get(get_all_order_api);
     callback(null, data);
   } catch (error) {
     callback(error);

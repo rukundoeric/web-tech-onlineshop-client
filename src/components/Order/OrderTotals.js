@@ -2,7 +2,7 @@ import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-export default function CartTotals({value}) {
+export default function     OrderTotals({value}) {
     const {cartSubTotal, cartTax, cartTotal,clearCart, createOrder, order} = value;
     const axios = useAxiosPrivate();
     const navigate = useNavigate();

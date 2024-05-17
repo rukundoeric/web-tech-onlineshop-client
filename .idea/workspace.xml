@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="de924036-0663-46a6-85c8-555af94cea97" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/Auth/Logout.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Order/EmptyOrders.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Order/OrderColumns.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Order/OrderItem.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Order/OrderList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Order/OrderTotals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Order/Orders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/_auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/_auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/_cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/_cart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Auth/Signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Signup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Cart/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Cart/Cart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Cart/CartTotals.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Cart/CartTotals.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CreateProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateProduct.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Details.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProductList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProductList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/context.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/context.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/context/AuthProvider.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/context/AuthProvider.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/_constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/_constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useAxiosPrivate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useAxiosPrivate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/index.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2gakHWYxPrT2hP1dpb8EYlGlCMB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="de924036-0663-46a6-85c8-555af94cea97" name="Changes" comment="" />
+      <created>1715942989105</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1715942989105</updated>
+      <workItem from="1715942991153" duration="91000" />
+      <workItem from="1715972031642" duration="242000" />
+      <workItem from="1715972296616" duration="1075000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

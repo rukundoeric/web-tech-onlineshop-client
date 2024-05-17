@@ -5,6 +5,7 @@ import EmptyCart from './EmptyCart';
 import { ProductConsumer} from '../../context';
 import CartList from './CartList';
 import CartTotals from "./CartTotals";
+import Line from "../Shared/Line";
 
 export default class Store extends Component {
     render() {
@@ -16,10 +17,14 @@ export default class Store extends Component {
                         if (cart.length > 0) {
                             return (
                                 <React.Fragment>
+                                    <Line />
                                     <Title name="your" title="cart" />
-                                    <CartColumns />
-                                    <CartList value={value} />
-                                    <CartTotals value={value} history={this.props.history} />
+                                    <Line />
+                                    <div className="card pt-5 px-3 m-5">
+                                        <CartColumns />
+                                        <CartList value={value} />
+                                        <CartTotals value={value} history={this.props.history} />
+                                    </div>
                                 </React.Fragment>
                             );
                         } else {

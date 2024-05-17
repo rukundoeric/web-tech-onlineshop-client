@@ -78,7 +78,11 @@ function SignUp({ alert: defaultAlert }) {
           if (err) {
             console.log("Error object: ", err?.response);
             setStatus('fail');
-            handleShowAlert({ type: 'err', message: err.response?.data?.errors[0]?.defaultMessage });
+            if (err?.response?.data != null && err?.response?.data?.length > 0) {
+              handleShowAlert({ type: 'err', message: err?.response?.data?.errors[0]?.defaultMessage });
+            } else {
+              handleShowAlert({ type: 'err', message: err?.response?.data?.message });
+            }
           } else {
             handleShowAlert({ type: 'info', message: "Account created successfully, you can now login to your account!" });
           }
@@ -128,7 +132,7 @@ function SignUp({ alert: defaultAlert }) {
                       value={password}
                       errors={passwordErrors}
                     />
-                    <Button label="Sign Up" classes={`primary-button ${(!canContinue || status === 'pending') && 'disabled'} mt-3`} />
+                    <Button label="Sign Up" classes={`primary-button mt-3`} />
                   </form>
                 </div>
               </div>

@@ -1,196 +1,218 @@
-import React, { Component } from "react";
-import { storeProducts, detailProduct } from "./data";
-import {getProducts, logIn} from "./api";
-const ProductContext = React.createContext();
+import React, {createContext, seState, useContext, useEffect, useState} from "react";
+import {detailProduct} from "./data";
+import {getAllOrders, getProducts, getUserOrders} from "./api";
+import {Order, OrderProduct} from "./models";
+import {checkout} from "./api/_cart";
+import AuthContext from "./context/AuthProvider";
+import useAuth from "./hooks/useAuth";
+import useAxiosPrivate from "./hooks/useAxiosPrivate";
 
-class ProductProvider extends Component {
-    state = {
-        products: [],
-        detailProduct: detailProduct,
-        cart: [],
-        modalOpen: false,
-        modalProduct: detailProduct,
-        cartSubTotal: 0,
-        cartTax: 0,
-        cartTotal: 0
-    };
-    componentDidMount() {
-        this.setProducts();
-    }
+const ProductContext = createContext({});
+const ProductProvider = ({ children }) => {
+    const { auth } = useAuth();
+    const axios = useAxiosPrivate();
+    const [products, setProducts] = useState([]);
+    const [detailProduct, setDetailProduct] = useState({});
+    const [cart, setCart] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalProduct, setModalProduct] = useState(detailProduct);
+    const [cartSubTotal, setCartSubTotal] = useState(0);
+    const [cartTax, setCartTax] = useState(0);
+    const [cartTotal, setCartTotal] = useState(0);
+    const [order, setOrder] = useState(new Order());
+    const [orderProducts, setOrderProducts] = useState([]);
+    const [userOrders, setUserOrders] = useState([]);
+    const [allOrders, setAllUserOrders] = useState([]);
 
-    setProducts = () => {
-        let products = [];
+    useEffect(() => {
+        fetchProducts();
+        fetchOrders();
+        addTotals();
+    }, []);
+
+    const fetchProducts = () => {
         getProducts((err, data) => {
             if (err) {
-
+                // Handle error
             } else {
-                data?.data?.forEach(item => {
-                    const singleItem = { ...item };
-                    products = [...products, singleItem];
-                });
-                console.log("Products items: ", data);
-                this.setState(() => {
-                    return { products };
-                }, this.checkCartItems);
+                let tempProducts = data?.data?.map(item => ({ ...item }));
+                console.log("Products items: ", tempProducts);
+                setProducts(tempProducts);
             }
         });
     };
 
-    getItem = id => {
-        const product = this.state.products.find(item => item.id === id);
-        return product;
+    const fetchOrders = () => {
+        if (auth?.profile?.role === 'ADMIN') {
+            getAllOrders(axios, (err, data) => {
+                if (err) {
+                    // Handle error
+                } else {
+                    let tempOrders = data?.data?.map(item => ({ ...item }));
+                    console.log("Orders items: ", tempOrders);
+                    setAllUserOrders(tempOrders);
+                }
+            });
+        } else {
+            getUserOrders(axios,auth?.profile?.id, (err, data) => {
+                if (err) {
+                    // Handle error
+                } else {
+                    let tempOrders = data?.data?.map(item => ({ ...item }));
+                    console.log("Orders items: ", tempOrders);
+                    setUserOrders(tempOrders);
+                }
+            });
+        }
     };
-    handleDetail = id => {
-        const product = this.getItem(id);
-        this.setState(() => {
-            return { detailProduct: product };
-        });
+
+    const getItem = id => {
+        return products.find(item => item.id === id);
     };
-    addToCart = id => {
-        let tempProducts = [...this.state.products];
-        const index = tempProducts.indexOf(this.getItem(id));
+
+    const handleDetail = id => {
+        const product = getItem(id);
+        setDetailProduct(product);
+    };
+
+    const addToCart = (user, id) => {
+        let tempProducts = [...products];
+        const index = tempProducts.indexOf(getItem(id));
         const product = tempProducts[index];
         product.inCart = true;
         product.count = 1;
-        const price = product.price;
-        product.total = price;
+        product.total = product.price;
 
-        this.setState(() => {
-            return {
-                products: [...tempProducts],
-                cart: [...this.state.cart, product],
-                detailProduct: { ...product }
-            };
-        }, this.addTotals);
-    };
-    openModal = id => {
-        const product = this.getItem(id);
-        this.setState(() => {
-            return { modalProduct: product, modalOpen: true };
+        setProducts(tempProducts);
+        setCart([...cart, product]);
+        setDetailProduct({ ...product });
+        addTotals();
+
+        const newOrder = { ...order };
+        newOrder.user = user;
+        newOrder.totalPrice = getTotals().total;
+        newOrder.status = "DRAFT";
+        newOrder.orderProducts = cart.map(cartItem => {
+            const orderProduct = new OrderProduct();
+            orderProduct.product = cartItem;
+            orderProduct.quantity = cartItem.count;
+            orderProduct.unitePrice = cartItem.total;
+            return orderProduct;
         });
+        setOrder(newOrder);
+        addTotals();
     };
-    closeModal = () => {
-        this.setState(() => {
-            return { modalOpen: false };
-        });
+
+    const openModal = id => {
+        const product = getItem(id);
+        setModalProduct(product);
+        setModalOpen(true);
     };
-    increment = id => {
-        let tempCart = [...this.state.cart];
-        const selectedProduct = tempCart.find(item => {
-            return item.id === id;
-        });
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
+    const increment = id => {
+        let tempCart = [...cart];
+        const selectedProduct = tempCart.find(item => item.id === id);
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
-        product.count = product.count + 1;
+        product.count += 1;
         product.total = product.count * product.price;
-        this.setState(() => {
-            return {
-                cart: [...tempCart]
-            };
-        }, this.addTotals);
+
+        setCart(tempCart);
+        addTotals();
     };
-    decrement = id => {
-        let tempCart = [...this.state.cart];
-        const selectedProduct = tempCart.find(item => {
-            return item.id === id;
-        });
+
+    const decrement = id => {
+        let tempCart = [...cart];
+        const selectedProduct = tempCart.find(item => item.id === id);
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
-        product.count = product.count - 1;
+        product.count -= 1;
+
         if (product.count === 0) {
-            this.removeItem(id);
+            removeItem(id);
         } else {
             product.total = product.count * product.price;
-            this.setState(() => {
-                return { cart: [...tempCart] };
-            }, this.addTotals);
+            setCart(tempCart);
         }
+        addTotals();
     };
-    getTotals = () => {
-        // const subTotal = this.state.cart
-        //   .map(item => item.total)
-        //   .reduce((acc, curr) => {
-        //     acc = acc + curr;
-        //     return acc;
-        //   }, 0);
-        let subTotal = 0;
-        this.state.cart.map(item => (subTotal += item.total));
-        const tempTax = subTotal * 0.1;
-        const tax = parseFloat(tempTax.toFixed(2));
-        const total = subTotal + tax;
-        return {
-            subTotal,
-            tax,
-            total
-        };
-    };
-    addTotals = () => {
-        const totals = this.getTotals();
-        this.setState(
-            () => {
-                return {
-                    cartSubTotal: totals.subTotal,
-                    cartTax: totals.tax,
-                    cartTotal: totals.total
-                };
-            },
-            () => {
-                // console.log(this.state);
-            }
-        );
-    };
-    removeItem = id => {
-        let tempProducts = [...this.state.products];
-        let tempCart = [...this.state.cart];
 
-        const index = tempProducts.indexOf(this.getItem(id));
+    const getTotals = () => {
+        let subTotal = cart.reduce((acc, item) => acc + item.total, 0);
+        const tax = parseFloat((subTotal * 0.1).toFixed(2));
+        const total = subTotal + tax;
+        return { subTotal, tax, total };
+    };
+
+    const addTotals = () => {
+        const totals = getTotals();
+        setCartSubTotal(totals.subTotal);
+        setCartTax(totals.tax);
+        setCartTotal(totals.total);
+    };
+
+    const removeItem = id => {
+        let tempProducts = [...products];
+        let tempCart = cart.filter(item => item.id !== id);
+
+        const index = tempProducts.indexOf(getItem(id));
         let removedProduct = tempProducts[index];
         removedProduct.inCart = false;
         removedProduct.count = 0;
         removedProduct.total = 0;
 
-        tempCart = tempCart.filter(item => {
-            return item.id !== id;
-        });
+        setCart(tempCart);
+        setProducts(tempProducts);
+        addTotals();
+    };
 
-        this.setState(() => {
-            return {
-                cart: [...tempCart],
-                products: [...tempProducts]
-            };
-        }, this.addTotals);
+    const clearCart = () => {
+        console.log("ORDER: ", order);
     };
-    clearCart = () => {
-        this.setState(
-            () => {
-                return { cart: [] };
-            },
-            () => {
-                this.setProducts();
-                this.addTotals();
-            }
-        );
+
+    const createOrder = (axios, order, callBack) => {
+        console.log("Order request: ", order);
+        checkout(axios, order, callBack);
     };
-    render() {
-        return (
-            <ProductContext.Provider
-                value={{
-                    ...this.state,
-                    handleDetail: this.handleDetail,
-                    addToCart: this.addToCart,
-                    openModal: this.openModal,
-                    closeModal: this.closeModal,
-                    increment: this.increment,
-                    decrement: this.decrement,
-                    removeItem: this.removeItem,
-                    clearCart: this.clearCart
-                }}
-            >
-                {this.props.children}
-            </ProductContext.Provider>
-        );
-    }
-}
+
+    // Add other methods as needed
+
+    return (
+        <ProductContext.Provider
+            value={{
+                products,
+                detailProduct,
+                cart,
+                modalOpen,
+                modalProduct,
+                cartSubTotal,
+                cartTax,
+                cartTotal,
+                order,
+                orderProducts,
+                handleDetail,
+                addToCart,
+                openModal,
+                closeModal,
+                increment,
+                decrement,
+                removeItem,
+                clearCart,
+                createOrder,
+                fetchProducts,
+                fetchOrders,
+                userOrders,
+                allOrders
+            }}
+        >
+            {children}
+        </ProductContext.Provider>
+    );
+};
 
 const ProductConsumer = ProductContext.Consumer;
 

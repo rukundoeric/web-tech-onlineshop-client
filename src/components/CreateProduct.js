@@ -62,9 +62,6 @@ function CreateProduct({ alert: defaultAlert }) {
     setAlert(data || defaultAlert);
     setShowAlert(true);
   };
-  const handleSignupSuccess = () => {
-    // setSignupSuccess(true);
-  };
   const handleSignUp = e => {
     e.preventDefault();
     if (status !== 'pending') {
@@ -85,10 +82,10 @@ function CreateProduct({ alert: defaultAlert }) {
               handleShowAlert({ type: 'err', message: err.response?.data?.errors[0]?.defaultMessage });
             } else {
               handleShowAlert({ type: 'info', message: "Product created successfully" });
-              setPrice(0)
-              setDescription("")
-              setName("")
-              setImage("")
+              setPrice(undefined)
+              setDescription(undefined)
+              setName(undefined)
+              setImage(undefined)
             }
           } catch (error) {
             handleShowAlert({ type: 'err', message: "Something went wrong!!" });
@@ -140,7 +137,7 @@ function CreateProduct({ alert: defaultAlert }) {
                       value={price}
                       errors={priceErrors}
                     />
-                    <Button label="Create product" classes={`primary-button ${(!canContinue || status === 'pending') && 'disabled'} mt-3`} />
+                    <Button label="Create product" classes="primary-button" />
                   </form>
                 </div>
               </div>

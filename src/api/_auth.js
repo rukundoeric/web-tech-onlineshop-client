@@ -4,9 +4,7 @@ import { Constants } from '../helpers';
 const {
   login_api,
   signup_api,
-  // admin_login_api
-  refresh_token_api,
-  google_auth_api,
+  logout_api,
 } = Constants;
 
 export const signUp = async (user, callback) => {
@@ -27,8 +25,12 @@ export const logIn = async (auth, callback) => {
   }
 };
 
-export const refreshToken = async () => {
-  const { data } = await axios.get(refresh_token_api);
-  return { ...data, status: 'success' };
+export const logOut = async (callback) => {
+  try {
+    const { data } = await axios.post(logout_api, {});
+    callback(null, data);
+  } catch (error) {
+    callback(error);
+  }
 };
 

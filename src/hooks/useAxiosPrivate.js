@@ -1,20 +1,18 @@
-/* eslint-disable import/no-cycle */
-/* eslint-disable no-param-reassign */
+
 import { useEffect } from 'react';
 
 import { axiosPrivate } from '../api/_axios';
-import useRefreshToken from './useRefreshToken';
 import useAuth from './useAuth';
+import { useNavigate } from "react-router-dom";
 
 const useAxiosPrivate = () => {
-  const history = useHistory();
-  const refresh = useRefreshToken();
+  const navigate = useNavigate();
   const { auth } = useAuth();
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(config => {
       if (!config.headers.Authorization) {
-        config.headers.Authorization = `Bearer ${auth?.access_token}`;
+        config.headers.Authorization = `${auth?.token}`;
       }
       return config;
     }, error => Promise.reject(error));
@@ -26,7 +24,7 @@ const useAxiosPrivate = () => {
         if (error?.response?.status === 403 && !prevRequest?.sent) {
           prevRequest.sent = true;
           prevRequest.sent = true;
-          history.push('/login');
+          navigate('/login');
         }
         return Promise.reject(error);
       },
@@ -35,7 +33,7 @@ const useAxiosPrivate = () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);
     };
-  }, [auth, refresh]);
+  }, [auth]);
   return axiosPrivate;
 };
 
