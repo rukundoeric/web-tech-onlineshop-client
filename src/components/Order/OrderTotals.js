@@ -1,8 +1,10 @@
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import useAuth from '../../hooks/useAuth';
 
 export default function     OrderTotals({value}) {
+    const { auth } = useAuth();
     const {cartSubTotal, cartTax, cartTotal,clearCart, createOrder, order} = value;
     const axios = useAxiosPrivate();
     const navigate = useNavigate();
@@ -28,9 +30,9 @@ export default function     OrderTotals({value}) {
                        className="btn btn-outline-info text-uppercase mb-3 px-5"
                        type="button"
                        onClick={() => {
-                           createOrder(axios, order, (err, data) => {
+                           createOrder(axios, order, auth?.profile, (err, data) => {
                                if (!err) {
-                                   navigate("user/orders", { replace: true });
+                                   navigate("users/orders", { replace: true });
                                }
                            });
                        }}>

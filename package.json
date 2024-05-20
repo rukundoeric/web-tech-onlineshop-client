@@ -36,7 +36,10 @@
     "prop-types": "^15.8.1",
     "query-string": "^7.1.1",
     "semantic-ui-react": "^2.1.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@cloudinary/react": "*",
+    "@cloudinary/url-gen": "*"
+
   },
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",

@@ -22,7 +22,7 @@ export default function Alert({ info: { type, message, action }, handleCloseAler
                 { action && (<Link to={action.to}>{action.text}</Link>) }
               </div>
               <div className="d-flex">
-                <span className="close" onClick={handleCloseAlert}><i className="bi bi-x-lg" /></span>
+                <span className="close" onClick={handleCloseAlert}><i className="fas fa-times" /></span>
               </div>
             </div>
           </div>
@@ -37,7 +37,7 @@ export default function Alert({ info: { type, message, action }, handleCloseAler
                 { action && (<Link to={action.to}>{action.text}</Link>) }
               </div>
               <div>
-                <span className="close" onClick={handleCloseAlert}><i className="bi bi-x-lg" /></span>
+                <span className="close" onClick={handleCloseAlert}><i className="fas fa-times" /></span>
               </div>
             </div>
           </div>
@@ -52,7 +52,7 @@ export default function Alert({ info: { type, message, action }, handleCloseAler
                 { action && (<Link to={action.to}>{action.text}</Link>) }
               </div>
               <div>
-                <span className="close" onClick={handleCloseAlert}><i className="bi bi-x-lg" /></span>
+                <span className="close" onClick={handleCloseAlert}><i className="fas fa-times" /></span>
               </div>
             </div>
           </div>
@@ -68,7 +68,7 @@ export default function Alert({ info: { type, message, action }, handleCloseAler
                 { action && (<Link to={action.to}>{action.text}</Link>) }
               </div>
               <div>
-                <span className="close" onClick={handleCloseAlert}><i className="bi bi-x-lg" /></span>
+                <span className="close" onClick={handleCloseAlert}><i className="fas fa-times" /></span>
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@ export default function Alert({ info: { type, message, action }, handleCloseAler
                 { action && (<Link to={action.to}>{action.text}</Link>) }
               </div>
               <div className="close-cont">
-                <span className="close" onClick={handleCloseAlert}><i className="bi bi-x-circle-fill" /></span>
+                <span className="close" onClick={handleCloseAlert}><i className="fas fa-times" /></span>
               </div>
             </div>
           </div>

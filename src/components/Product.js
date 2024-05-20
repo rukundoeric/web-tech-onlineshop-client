@@ -4,11 +4,25 @@ import {Link} from 'react-router-dom';
 import {ProductConsumer} from '../context';
 import PropTypes from 'prop-types';
 import useAuth from "../hooks/useAuth";
+import { deleteProducts } from '../api/_product';
 
 
-const Product = ({ product }) => {
+const Product = ({ product, handleShowAlert, onActionComplete }) => {
     const { auth } = useAuth();
     const { id, name, image, price, inCart } = product;
+
+    const deleteProduct = () => {
+        deleteProducts(product, (err, data) => {
+              try {
+                if (err) {
+                    handleShowAlert({ type: 'err', message: "Something went wrong. Could not delete product!!" });
+                } else {
+                    handleShowAlert({ type: 'info', message: "Product deleted successfully!!" });
+                    onActionComplete();
+                }
+              } catch (error) {}
+            });
+      };
 
     return (
         <ProducrWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
@@ -16,18 +30,20 @@ const Product = ({ product }) => {
                 <ProductConsumer>
                     {value => (
                         <div className="img-container p-5" onClick={() => value.handleDetail(id)}>
-                            <Link to="/details">
+                            <Link to={`/product/details/${id}`}>
                                 <img src={image} alt="product" className="card-img-top" />
                             </Link>
-                            <button
-                                className="cart-btn"
-                                disabled={inCart}
-                                onClick={() => {
+                            <button className='cart-btn' >
+                                {auth?.profile?.role === 'ADMIN' && (<div>
+                                    <Link to={`/product/edit/${id}`}><button className=''><i className="fas fa-edit"></i></button></Link>
+                                   <button onClick={deleteProduct} className=''><i className="fas fa-trash"></i></button>
+                                </div>)}
+                                
+                                {(!auth || !auth?.profile || auth?.profile?.role === 'USER') && (<button className='cart-btn' disabled={inCart} onClick={() => {
                                     value.addToCart(auth?.profile, id);
                                     value.openModal(id);
-                                }}
-                            >
-                                {inCart ? (
+                                }}>
+                                    {inCart ? (
                                     <p className="text-capitalize mb-0" disabled>
                                         {" "}
                                         in Cart
@@ -35,6 +51,7 @@ const Product = ({ product }) => {
                                 ) : (
                                     <i className="fas fa-cart-plus" />
                                 )}
+                                </button>)}
                             </button>
                         </div>
                     )}

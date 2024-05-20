@@ -13,6 +13,9 @@ import Signup from "./components/Auth/Signup";
 import CreateProduct from "./components/CreateProduct";
 import Logout from "./components/Auth/Logout";
 import Orders from "./components/Order/Orders";
+import EditProduct from './components/EditProduct';
+import Forbidden from './components/Shared/Forbidden';
+import RequireAuth from './routes/RequireAuth';
 
 function App() {
   return (
@@ -20,17 +23,26 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<ProductList />} />
-        <Route path="/details" element={<Details />} />
+        <Route path="/product/details/:productId" element={<Details />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
 
 
-        <Route path="/user/orders" element={<Orders />} />
-        <Route path="/admin/orders" element={<Orders />} />
-        <Route path="/product/create" element={<CreateProduct />} />
+        <Route element={<RequireAuth requiredRoles={["ADMIN", "USER"]} />}>
+          <Route path="/user/orders" element={<Orders />} />
+          <Route path="/cart" element={<Cart />} />
+        </Route>
 
-        <Route path="/cart" element={<Cart />} />
+
+        <Route element={<RequireAuth requiredRoles={["ADMIN"]} />}>
+          <Route path="/admin/orders" element={<Orders />} />
+          <Route path="/product/create" element={<CreateProduct />} />
+          <Route path="/product/edit/:productId" element={<EditProduct />} />
+        </Route>
+
+        <Route path='/forbidden' element={<Forbidden />} />
+
         <Route element={<Default />} />
       </Routes>
       <Modal />

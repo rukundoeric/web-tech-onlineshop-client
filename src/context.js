@@ -1,6 +1,6 @@
 import React, {createContext, seState, useContext, useEffect, useState} from "react";
 import {detailProduct} from "./data";
-import {getAllOrders, getProducts, getUserOrders} from "./api";
+import {approveOrder, getAllOrders, getProducts, getUserOrders} from "./api";
 import {Order, OrderProduct} from "./models";
 import {checkout} from "./api/_cart";
 import AuthContext from "./context/AuthProvider";
@@ -9,6 +9,7 @@ import useAxiosPrivate from "./hooks/useAxiosPrivate";
 
 const ProductContext = createContext({});
 const ProductProvider = ({ children }) => {
+    const defaulAlert = { type: 'err', message: "Something went wrong!" };
     const { auth } = useAuth();
     const axios = useAxiosPrivate();
     const [products, setProducts] = useState([]);
@@ -23,23 +24,23 @@ const ProductProvider = ({ children }) => {
     const [orderProducts, setOrderProducts] = useState([]);
     const [userOrders, setUserOrders] = useState([]);
     const [allOrders, setAllUserOrders] = useState([]);
+    const [alert, setAlert] = useState(defaulAlert);
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
-        fetchProducts();
         fetchOrders();
-        addTotals();
     }, []);
 
-    const fetchProducts = () => {
-        getProducts((err, data) => {
-            if (err) {
-                // Handle error
-            } else {
-                let tempProducts = data?.data?.map(item => ({ ...item }));
-                console.log("Products items: ", tempProducts);
-                setProducts(tempProducts);
-            }
-        });
+
+    const handleShowAlert = data => {
+        console.log("ALERT DATA: ", data)
+        setAlert(data || defaulAlert);
+        setShowAlert(true);
+    };
+
+    const handleCloseAlert = () => {
+        setAlert(null);
+        setShowAlert(false);
     };
 
     const fetchOrders = () => {
@@ -48,9 +49,8 @@ const ProductProvider = ({ children }) => {
                 if (err) {
                     // Handle error
                 } else {
-                    let tempOrders = data?.data?.map(item => ({ ...item }));
-                    console.log("Orders items: ", tempOrders);
-                    setAllUserOrders(tempOrders);
+                    setAllUserOrders(data?.data);
+                    console.log("Orders: ", data?.data);
                 }
             });
         } else {
@@ -65,6 +65,7 @@ const ProductProvider = ({ children }) => {
             });
         }
     };
+
 
     const getItem = id => {
         return products.find(item => item.id === id);
@@ -86,21 +87,6 @@ const ProductProvider = ({ children }) => {
         setProducts(tempProducts);
         setCart([...cart, product]);
         setDetailProduct({ ...product });
-        addTotals();
-
-        const newOrder = { ...order };
-        newOrder.user = user;
-        newOrder.totalPrice = getTotals().total;
-        newOrder.status = "DRAFT";
-        newOrder.orderProducts = cart.map(cartItem => {
-            const orderProduct = new OrderProduct();
-            orderProduct.product = cartItem;
-            orderProduct.quantity = cartItem.count;
-            orderProduct.unitePrice = cartItem.total;
-            return orderProduct;
-        });
-        setOrder(newOrder);
-        addTotals();
     };
 
     const openModal = id => {
@@ -122,7 +108,7 @@ const ProductProvider = ({ children }) => {
         product.total = product.count * product.price;
 
         setCart(tempCart);
-        addTotals();
+        addTotals(cart);
     };
 
     const decrement = id => {
@@ -138,18 +124,18 @@ const ProductProvider = ({ children }) => {
             product.total = product.count * product.price;
             setCart(tempCart);
         }
-        addTotals();
+        addTotals(cart);
     };
 
-    const getTotals = () => {
+    const getTotals = (cart) => {
         let subTotal = cart.reduce((acc, item) => acc + item.total, 0);
         const tax = parseFloat((subTotal * 0.1).toFixed(2));
         const total = subTotal + tax;
         return { subTotal, tax, total };
     };
 
-    const addTotals = () => {
-        const totals = getTotals();
+    const addTotals = (cart) => {
+        const totals = getTotals(cart);
         setCartSubTotal(totals.subTotal);
         setCartTax(totals.tax);
         setCartTotal(totals.total);
@@ -167,16 +153,27 @@ const ProductProvider = ({ children }) => {
 
         setCart(tempCart);
         setProducts(tempProducts);
-        addTotals();
+        addTotals(cart);
     };
 
     const clearCart = () => {
         console.log("ORDER: ", order);
     };
 
-    const createOrder = (axios, order, callBack) => {
+    const createOrder = (axios, order, user, cart, totalPrice, callBack) => {
         console.log("Order request: ", order);
-        checkout(axios, order, callBack);
+        const newOrder = { ...order };
+        newOrder.user = user;
+        newOrder.totalPrice = totalPrice;
+        newOrder.status = "PENDING";
+        newOrder.orderProducts = cart.map(cartItem => { 
+            const orderProduct = new OrderProduct();
+            orderProduct.product = cartItem;
+            orderProduct.quantity = cartItem.count;
+            orderProduct.unitePrice = cartItem.total;
+            return orderProduct;
+        });
+        checkout(axios, newOrder, callBack);
     };
 
     // Add other methods as needed
@@ -185,6 +182,7 @@ const ProductProvider = ({ children }) => {
         <ProductContext.Provider
             value={{
                 products,
+                setProducts,
                 detailProduct,
                 cart,
                 modalOpen,
@@ -203,10 +201,14 @@ const ProductProvider = ({ children }) => {
                 removeItem,
                 clearCart,
                 createOrder,
-                fetchProducts,
                 fetchOrders,
                 userOrders,
-                allOrders
+                allOrders,
+                alert,
+                handleShowAlert,
+                handleCloseAlert,
+                showAlert,
+                getTotals
             }}
         >
             {children}
@@ -216,4 +218,4 @@ const ProductProvider = ({ children }) => {
 
 const ProductConsumer = ProductContext.Consumer;
 
-export { ProductProvider, ProductConsumer };
+export { ProductProvider, ProductConsumer, ProductContext };

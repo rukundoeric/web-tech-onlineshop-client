@@ -4,6 +4,8 @@
  --mainWhite:#f3f3f3;
  --mainDark:#232528;
  --mainYellow:#ffa400;
+ --mainRed:#c26240;
+ --mainGreen:#3d9763;
 }
 body{
   font-family:"Anton", sans-serif !important;
@@ -344,3 +346,22 @@ body{
     border-color: #0a64a4;
     color: #0a64a4;
 }
+
+.line h6 {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #e1e1e1;
+    line-height: 0.1em;
+    margin: 10px 0 5px;
+  }
+  .line h6 span {
+    background: white;
+    padding: 0 10px;
+    color: #bbb;
+    font-size: small;
+  }
+
+  .close-cont {
+    position: absolute;
+    right: 13px;
+  }

@@ -5,32 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de924036-0663-46a6-85c8-555af94cea97" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Auth/Logout.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Order/EmptyOrders.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Order/OrderColumns.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Order/OrderItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Order/OrderList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Order/OrderTotals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Order/Orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/_auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/_auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/_cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/_cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/Signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Signup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Cart/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Cart/Cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Cart/CartTotals.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Cart/CartTotals.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CreateProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateProduct.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Details.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Details.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ProductList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProductList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/context.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/context.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/context/AuthProvider.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/context/AuthProvider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/_constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/_constants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useAxiosPrivate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useAxiosPrivate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +35,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/ericrukundo/Documents/Projects/Spring/Webtech/onlineshop-client",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -79,6 +55,8 @@
       <workItem from="1715942991153" duration="91000" />
       <workItem from="1715972031642" duration="242000" />
       <workItem from="1715972296616" duration="1075000" />
+      <workItem from="1715975980364" duration="62000" />
+      <workItem from="1715978096729" duration="7000" />
     </task>
     <servers />
   </component>

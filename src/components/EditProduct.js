@@ -1,13 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Validate } from '../helpers';
-import {createProducts, signUp} from '../api';
+import  { useParams } from 'react-router-dom';
+import { updateProducts } from '../api';
 import useAuth from '../hooks/useAuth';
 import Alert from './Shared/Alert';
 import { Button } from './Shared/Elements';
 import { Product } from "../models";
 import { InputText, InputNumber, InputPhoto, InputTextArea} from "./Shared/Input";
+import { getProduct } from '../api/_product';
+import { set } from 'lodash';
 
-function CreateProduct({ alert: defaultAlert }) {
+
+function EditProduct({ alert: defaultAlert }) {
   const { setAuth } = useAuth();
 
   const [status, setStatus] = useState();
@@ -26,6 +30,27 @@ function CreateProduct({ alert: defaultAlert }) {
   const [showAlert, setShowAlert] = useState(true);
   const form = useRef();
   const canContinue = !!(!nameErrors && !descriptionErrors && !imageErrors && !priceErrors && name && description && image && price);
+  const { productId } = useParams();
+  const [product, setProduct] = useState({});
+  
+
+  useEffect(() => {
+    fetchProduct(productId);
+}, []);
+
+const fetchProduct = (id) => {
+    getProduct(id, (err, data) => {
+        if (err) {
+            // Handle error
+        } else {
+            setProduct(data?.data);
+            setName(data?.data?.name);
+            setDescription(data?.data?.description);
+            setImage(data?.data?.image);
+            setPrice(data?.data?.price);
+        }
+    });
+};
 
   const handleNameChange = e => {
     setName(e.target.value);
@@ -62,26 +87,29 @@ function CreateProduct({ alert: defaultAlert }) {
     setAlert(data || defaultAlert);
     setShowAlert(true);
   };
-  const handleSignUp = e => {
-    e.preventDefault();
+  const updateProduct = e => {
+    if(e) {
+      e.preventDefault();
+    }
+    
     if (status !== 'pending') {
       if (!canContinue) {
         ValidateInputs();
       } else {
         setStatus('pending');
-        const product = new Product();
-        product.name = name;
-        product.description = description;
-        product.price = price;
-        product.image = image;
+        const updatedProduct = product;
+        updatedProduct.name = name;
+        updatedProduct.description = description;
+        updatedProduct.price = price;
+        updatedProduct.image = image;
 
-        createProducts(product, (err, data) => {
+        updateProducts(product, (err, data) => {
           try {
             if (err) {
               setStatus('fail');
               handleShowAlert({ type: 'err', message: err.response?.data?.errors[0]?.defaultMessage });
             } else {
-              handleShowAlert({ type: 'info', message: "Product created successfully" });
+              handleShowAlert({ type: 'info', message: "Product updated successfully" });
               setPrice("")
               setDescription("")
               setName("")
@@ -99,14 +127,14 @@ function CreateProduct({ alert: defaultAlert }) {
     <div className="mt-4">
       <div className="row">
         <div className="col-12 right d-flex justify-content-center align-items-center">
-        <div>
+          <div>
             <div className="c-f-content">
               <div className="c-f-i-content py-4 px-5">
                 {(showAlert && alert) && (<Alert info={alert} handleCloseAlert={handleCloseAlert} />)}
                 <div className="">
                   <h6>Creating product item:  </h6>
                   <form
-                    onSubmit={handleSignUp}
+                    onSubmit={updateProduct}
                     className="needs-validation"
                     ref={form}
                   >
@@ -142,7 +170,7 @@ function CreateProduct({ alert: defaultAlert }) {
                       value={price}
                       errors={priceErrors}
                     />
-                    <Button label="Create product" classes="primary-button" />
+                    <Button label="Update product" classes="primary-button" />
                       </div>
                     </div>
                     
@@ -157,4 +185,4 @@ function CreateProduct({ alert: defaultAlert }) {
   );
 }
 
-export default CreateProduct;
+export default EditProduct;

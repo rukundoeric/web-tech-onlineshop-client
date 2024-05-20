@@ -7,14 +7,16 @@ import OrderList from "./OrderList";
 import EmptyOrders from "./EmptyOrders";
 import OrderTotals from "./OrderTotals";
 import useAuth from "../../hooks/useAuth";
+import { ButtonContainer } from '../Button';
+import { approveOrder, rejectOrder } from '../../api';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import OrdersItemContainer from './OrderItemContainer';
 
 const Orders = () => {
     const { auth } = useAuth();
+    const axios = useAxiosPrivate();
     const [fetched, setFetched] = useState(false);
-    // useEffect(() => {
-    //     fetchProducts();
-    //     fetchOrders();
-    // }, []);
+    
 
     return (
         <section>
@@ -22,6 +24,7 @@ const Orders = () => {
                 {value => {
                     const { userOrders, allOrders, fetchOrders, fetchProducts } = value;
                     const orders = auth?.profile?.role === 'ADMIN' ? allOrders : userOrders;
+                    console.log("Orders items: ", orders);
                     if (!fetched) {
                         fetchOrders();
                         setFetched(true);
@@ -29,14 +32,13 @@ const Orders = () => {
                     if (orders.length > 0) {
                         return (
                             <React.Fragment>
-                                <Line />
-                                <Title name="your" title="cart" />
-                                <Line />
-                                <div className="card pt-5 px-3 m-5">
-                                    <OrderColumns />
-                                    <OrderList value={value} />
-                                    <OrderTotals value={value} history={this.props.history} />
-                                </div>
+                                
+                                <Title name="your" title="Orders" />
+                        
+                                {orders.map(item=>{
+                                    return (<OrdersItemContainer item={item} value={value} />)
+                                })}
+                            
                             </React.Fragment>
                         );
                     } else {

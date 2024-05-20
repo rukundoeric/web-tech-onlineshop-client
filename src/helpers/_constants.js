@@ -4,10 +4,18 @@ export default {
   logout_api: '/signout',
   get_products_api: '/public/products',
   create_products_api: '/public/products',
+  update_products_api: id => `/public/products/${id}`,
+  delete_products_api: id => `/public/products/${id}`,
+  get_product_api: id => `/public/products/${id}`,
   apply_psw_reset_api: session => `/user/apply-password-reset/${session}`,
   create_order_api: '/users/orders',
   get_user_order_api: id => `/user/orders/${id}`,
   get_all_order_api: '/admin/orders',
   cart_api: id => `/cart/${id}`,
+  reject_order_api: id => `/admin/orders/reject/${id}`,
+  approve_order_api: id => `/admin/orders/approve/${id}`,
+  cancel_order_api: id => `/users/orders/cancel/${id}`,
+  uncancel_order_api: id => `/users/orders/uncancel/${id}`,
   my_profile_api: '/user/myprofile',
+  cloudinary_upload_url: `https://api.cloudinary.com/v1_1/newpoint/image/upload`
 };

@@ -19,10 +19,8 @@ const useAxiosPrivate = () => {
     const responseIntercept = axiosPrivate.interceptors.response.use(
       response => response,
       async error => {
-        console.log("REQUEST INTERCEPTORS: ", error);
         const prevRequest = error?.config;
-        if (error?.response?.status === 403 && !prevRequest?.sent) {
-          prevRequest.sent = true;
+        if ((error?.response?.status === 403 || error?.response?.status === 401) && !prevRequest?.sent) {
           prevRequest.sent = true;
           navigate('/login');
         }
