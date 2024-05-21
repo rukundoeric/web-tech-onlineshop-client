@@ -15,7 +15,7 @@ FROM base as deps
 
 WORKDIR /myapp
 
-ADD package.json npm-lock.yaml ./
+ADD package.json package-lock.json ./
 # Instruct npm to install all dependencies, regardless of NODE_ENV
 RUN npm i --frozen-lockfile --prod=false
 
