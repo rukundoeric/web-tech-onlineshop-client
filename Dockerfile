@@ -2,7 +2,7 @@
 FROM node:18-bullseye-slim as base
 
 # Install npm
-# RUN npm i -g npm
+RUN npm i -g serve
 
 # set for base and all layer that inherit from it
 ENV NODE_ENV production
