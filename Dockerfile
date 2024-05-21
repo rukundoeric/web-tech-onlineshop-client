@@ -35,16 +35,16 @@ WORKDIR /myapp
 
 COPY --from=deps /myapp/node_modules /myapp/node_modules
 
-ADD prisma .
-RUN npx prisma generate
+# ADD prisma .
+# RUN npx prisma generate
 
 ADD . .
 # RUN npm run postinstall
 RUN pnpm build
 
 # Run migrations
-ARG DATABASE_URL
-RUN pnpm deploy:db
+# ARG DATABASE_URL
+# RUN pnpm deploy:db
 
 # Finally, build the production image with minimal footprint
 FROM base
@@ -52,13 +52,13 @@ FROM base
 WORKDIR /myapp
 
 COPY --from=production-deps /myapp/node_modules /myapp/node_modules
-COPY --from=build /myapp/node_modules/prisma /myapp_node_modules/prisma
+# COPY --from=build /myapp/node_modules/prisma /myapp_node_modules/prisma
 COPY --from=build /myapp/build /myapp/build
 COPY --from=build /myapp/public /myapp/public
 
 ADD . .
 
-RUN npx prisma generate
+# RUN npx prisma generate
 
 # If you would like to explicitly set a port: https://docs.railway.app/guides/public-networking#user-defined-port
 # ENV PORT 8080
