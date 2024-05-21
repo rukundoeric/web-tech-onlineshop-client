@@ -40,7 +40,7 @@ COPY --from=deps /myapp/node_modules /myapp/node_modules
 
 ADD . .
 # RUN npm run postinstall
-RUN npm build
+RUN npm run build
 
 # Run migrations
 # ARG DATABASE_URL
