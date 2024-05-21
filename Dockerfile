@@ -1,8 +1,8 @@
 # base node image
 FROM node:18-bullseye-slim as base
 
-# Install pnpm
-RUN npm i -g pnpm
+# Install npm
+# RUN npm i -g npm
 
 # set for base and all layer that inherit from it
 ENV NODE_ENV production
@@ -15,9 +15,9 @@ FROM base as deps
 
 WORKDIR /myapp
 
-ADD package.json pnpm-lock.yaml ./
-# Instruct pnpm to install all dependencies, regardless of NODE_ENV
-RUN pnpm i --frozen-lockfile --prod=false
+ADD package.json npm-lock.yaml ./
+# Instruct npm to install all dependencies, regardless of NODE_ENV
+RUN npm i --frozen-lockfile --prod=false
 
 # Setup production node_modules
 FROM base as production-deps
@@ -25,8 +25,8 @@ FROM base as production-deps
 WORKDIR /myapp
 
 COPY --from=deps /myapp/node_modules /myapp/node_modules
-ADD package.json pnpm-lock.yaml ./
-RUN pnpm prune --prod
+ADD package.json package-lock.json ./
+RUN npm prune --prod
 
 # Build the app
 FROM base as build
@@ -40,11 +40,11 @@ COPY --from=deps /myapp/node_modules /myapp/node_modules
 
 ADD . .
 # RUN npm run postinstall
-RUN pnpm build
+RUN npm build
 
 # Run migrations
 # ARG DATABASE_URL
-# RUN pnpm deploy:db
+# RUN npm deploy:db
 
 # Finally, build the production image with minimal footprint
 FROM base
@@ -64,4 +64,4 @@ ADD . .
 # ENV PORT 8080
 # EXPOSE 8080
 
-CMD ["pnpm", "start"]
+CMD ["npm", "start"]
