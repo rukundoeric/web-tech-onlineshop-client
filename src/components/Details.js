@@ -1,18 +1,18 @@
 import React, { Component, useEffect, useState } from 'react'
-import {ProductConsumer} from '../context';
-import {Link, useParams} from 'react-router-dom';
-import {ButtonContainer} from './Button';
+import { ProductConsumer } from '../context';
+import { Link, useParams } from 'react-router-dom';
+import { ButtonContainer } from './Button';
 import useAuth from "../hooks/useAuth";
 import { getProduct } from '../api/_product';
 import useAppState from '../hooks/useAppState';
 
-const Details  = () => {
+const Details = () => {
 
     const { auth } = useAuth();
     const { productId } = useParams();
     const [product, setProduct] = useState({});
-    const {id, image, description, price, name, inCart} = product;
-    const { addToCart, openModal } = useAppState(); 
+    const { id, image, description, price, name, inCart } = product;
+    const { addToCart, openModal } = useAppState();
     useEffect(() => {
         fetchProduct(productId);
     }, []);
@@ -27,7 +27,7 @@ const Details  = () => {
             }
         });
     };
-    return(
+    return (
         <div className="container py-5">
             {/*title*/}
             <div className="row>">
@@ -62,13 +62,15 @@ const Details  = () => {
                                 back to products
                             </ButtonContainer>
                         </Link>
-                        <ButtonContainer cart disabled={inCart ? true : false}
-                                         onClick={() => {
-                                             addToCart(auth?.profile, id);
-                                             openModal(id);
-                                         }}>
-                            {inCart ? "inCart" : "add to cart"}
-                        </ButtonContainer>
+                        {auth?.profile?.role === 'USER' && (
+                            <ButtonContainer cart disabled={inCart ? true : false}
+                                onClick={() => {
+                                    addToCart(auth?.profile, id);
+                                    openModal(id);
+                                }}>
+                                {inCart ? "inCart" : "add to cart"}
+                            </ButtonContainer>
+                        )}
                     </div>
                 </div>
             </div>

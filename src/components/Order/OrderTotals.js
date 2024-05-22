@@ -32,7 +32,7 @@ export default function     OrderTotals({value}) {
                        onClick={() => {
                            createOrder(axios, order, auth?.profile, (err, data) => {
                                if (!err) {
-                                   navigate("users/orders", { replace: true });
+                                   navigate("/user/orders", { replace: true });
                                }
                            });
                        }}>

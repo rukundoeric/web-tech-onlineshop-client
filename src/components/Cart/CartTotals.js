@@ -36,7 +36,7 @@ export default function CartTotals() {
                        onClick={() => {
                            createOrder(axios, order, auth?.profile, cart, total, (err, data) => {
                                if (!err) {
-                                   navigate("users/orders");
+                                   navigate("/user/orders");
                                }
                            });
                        }}>
